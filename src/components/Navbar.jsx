@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { FiUser, FiSettings, FiLogOut } from "react-icons/fi"
-import logoTexto from "../assets/logoTextoVerde.png"
+import logoTexto from "../assets/logo-blanco.png"
 
 function Navbar() {
   const [mostrarMenu, setMostrarMenu] = useState(false)
