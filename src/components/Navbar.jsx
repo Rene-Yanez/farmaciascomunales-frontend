@@ -71,7 +71,6 @@ function Navbar() {
             {usuario?.rol === "admin" && (
               <Link to="/crear-usuario" className="block hover:underline">Crear Usuario</Link>
             )}
-            
             <Link to="/solicitudes" className="block hover:underline">Solicitudes</Link>
             <Link to="/ventas" className="block hover:underline">Ventas</Link>
             <Link to="/compras" className="block hover:underline">Compras</Link>

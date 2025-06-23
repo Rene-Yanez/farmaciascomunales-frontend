@@ -8,13 +8,11 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    // Validación básica
     if (!correo || !contrasena) {
       setError('Todos los campos son obligatorios.')
       return
     }
 
-    // Puedes conectar al microservicio aquí:
     try {
       const response = await fetch(import.meta.env.VITE_API_USUARIOS + '/login', {
         method: 'POST',
@@ -30,11 +28,11 @@ function Login() {
       const data = await response.json()
       console.log('Login exitoso:', data)
 
-      // Guarda token o sesión aquí si es necesario
-      // localStorage.setItem('token', data.token)
+      // Aquí puedes guardar datos de sesión si quieres
+      // localStorage.setItem('usuario', JSON.stringify(data))
 
       setError('')
-      // Redirigir al dashboard u otra vista
+      // Redireccionar si es necesario
     } catch (err) {
       setError(err.message || 'Error al iniciar sesión.')
     }
