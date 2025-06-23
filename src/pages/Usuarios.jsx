@@ -1,23 +1,20 @@
 import { useEffect, useState } from 'react'
+import { apiFetch } from '../services/api'
 
 function Usuarios() {
   const [busqueda, setBusqueda] = useState('')
   const [usuarios, setUsuarios] = useState([])
 
-  const apiUrl = import.meta.env.VITE_API_USUARIOS
-
   useEffect(() => {
-    fetch(`${apiUrl}/api/usuarios`)
-      .then(res => res.json())
+    apiFetch('usuarios', '/api/usuarios')
       .then(data => setUsuarios(data))
-      .catch(err => {
-        console.error('Error al cargar usuarios:', err)
-        setUsuarios([]) // o puedes mostrar un mensaje de error
+      .catch(error => {
+        console.error('Error al cargar usuarios:', error)
+        setUsuarios([]) // fallback vacío si falla
       })
   }, [])
 
-  // Puedes filtrar usuarios según la búsqueda
-  const usuariosFiltrados = usuarios.filter(u =>
+  const usuariosFiltrados = usuarios.filter((u) =>
     u.nombre.toLowerCase().includes(busqueda.toLowerCase())
   )
 
@@ -60,10 +57,16 @@ function Usuarios() {
                   </td>
                 </tr>
               ))}
+              {usuariosFiltrados.length === 0 && (
+                <tr>
+                  <td colSpan="5" className="text-center px-6 py-4 text-gray-500">
+                    No se encontraron usuarios.
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
-
       </div>
     </div>
   )
