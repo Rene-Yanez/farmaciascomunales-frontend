@@ -4,11 +4,18 @@ import { apiFetch } from '@/services/api'
 function Usuarios() {
   const [busqueda, setBusqueda] = useState('')
   const [usuarios, setUsuarios] = useState([])
+  const [error, setError] = useState(false)
 
   useEffect(() => {
     apiFetch('usuarios', '/usuarios')
-      .then(data => setUsuarios(data))
-      .catch(err => console.error("Error al cargar usuarios:", err.message))
+      .then(data => {
+        setUsuarios(data)
+        setError(false)
+      })
+      .catch(err => {
+        console.error("Error al cargar usuarios:", err.message)
+        setError(true)
+      })
   }, [])
 
   const usuariosFiltrados = usuarios.filter((u) =>
@@ -30,34 +37,37 @@ function Usuarios() {
           />
         </div>
 
-        <div className="overflow-x-auto rounded-lg shadow-md">
-          <table className="min-w-full bg-white text-sm text-left">
-            <thead className="bg-green-100 text-green-800 font-semibold">
-              <tr>
-                <th className="px-6 py-3">ID</th>
-                <th className="px-6 py-3">Nombre</th>
-                <th className="px-6 py-3">Correo</th>
-                <th className="px-6 py-3">Rol</th>
-                <th className="px-6 py-3 text-center">Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              {usuariosFiltrados.map((u) => (
-                <tr key={u.id} className="border-b hover:bg-green-50">
-                  <td className="px-6 py-3">{u.id}</td>
-                  <td className="px-6 py-3">{u.nombre}</td>
-                  <td className="px-6 py-3">{u.email}</td>
-                  <td className="px-6 py-3">{u.rol}</td>
-                  <td className="px-6 py-3 text-center">
-                    <button className="text-green-600 hover:underline mr-2">Editar</button>
-                    <button className="text-red-600 hover:underline">Eliminar</button>
-                  </td>
+        <div className="overflow-x-auto rounded-lg shadow-md bg-white p-4">
+          {error ? (
+            <p className="text-center text-red-600 font-semibold">No se encontraron usuarios 😕</p>
+          ) : (
+            <table className="min-w-full text-sm text-left">
+              <thead className="bg-green-100 text-green-800 font-semibold">
+                <tr>
+                  <th className="px-6 py-3">ID</th>
+                  <th className="px-6 py-3">Nombre</th>
+                  <th className="px-6 py-3">Correo</th>
+                  <th className="px-6 py-3">Rol</th>
+                  <th className="px-6 py-3 text-center">Acciones</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {usuariosFiltrados.map((u) => (
+                  <tr key={u.id} className="border-b hover:bg-green-50">
+                    <td className="px-6 py-3">{u.id}</td>
+                    <td className="px-6 py-3">{u.nombre}</td>
+                    <td className="px-6 py-3">{u.email}</td>
+                    <td className="px-6 py-3">{u.rol}</td>
+                    <td className="px-6 py-3 text-center">
+                      <button className="text-green-600 hover:underline mr-2">Editar</button>
+                      <button className="text-red-600 hover:underline">Eliminar</button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
-
       </div>
     </div>
   )
