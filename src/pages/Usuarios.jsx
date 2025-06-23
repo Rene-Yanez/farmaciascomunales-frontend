@@ -1,17 +1,14 @@
 import { useEffect, useState } from 'react'
-import { apiFetch } from '../service/api'
+import { apiFetch } from '../services/api'
 
 function Usuarios() {
   const [busqueda, setBusqueda] = useState('')
   const [usuarios, setUsuarios] = useState([])
 
   useEffect(() => {
-    apiFetch('usuarios', '/api/usuarios')
+    apiFetch('usuarios', '/usuarios')
       .then(data => setUsuarios(data))
-      .catch(error => {
-        console.error('Error al cargar usuarios:', error)
-        setUsuarios([]) // fallback vacío si falla
-      })
+      .catch(err => console.error("Error al cargar usuarios:", err.message))
   }, [])
 
   const usuariosFiltrados = usuarios.filter((u) =>
@@ -49,7 +46,7 @@ function Usuarios() {
                 <tr key={u.id} className="border-b hover:bg-green-50">
                   <td className="px-6 py-3">{u.id}</td>
                   <td className="px-6 py-3">{u.nombre}</td>
-                  <td className="px-6 py-3">{u.correo}</td>
+                  <td className="px-6 py-3">{u.email}</td>
                   <td className="px-6 py-3">{u.rol}</td>
                   <td className="px-6 py-3 text-center">
                     <button className="text-green-600 hover:underline mr-2">Editar</button>
@@ -57,16 +54,10 @@ function Usuarios() {
                   </td>
                 </tr>
               ))}
-              {usuariosFiltrados.length === 0 && (
-                <tr>
-                  <td colSpan="5" className="text-center px-6 py-4 text-gray-500">
-                    No se encontraron usuarios.
-                  </td>
-                </tr>
-              )}
             </tbody>
           </table>
         </div>
+
       </div>
     </div>
   )
