@@ -1,0 +1,10 @@
+@import 'keen-slider/keen-slider.min.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
