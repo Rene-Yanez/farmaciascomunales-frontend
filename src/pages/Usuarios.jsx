@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { apiFetch } from '@/service/api'
+import { apiFetch } from '@/services/api'
 
 function Usuarios() {
   const [busqueda, setBusqueda] = useState('')
