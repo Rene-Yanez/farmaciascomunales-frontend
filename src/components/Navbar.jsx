@@ -1,19 +1,26 @@
 import { useState } from "react"
-import { Link } from "react-router-dom"
-import { FiUser, FiSettings } from "react-icons/fi"
-import logoTexto from "../assets/logo-blanco.png"
+import { Link, useNavigate } from "react-router-dom"
+import { FiUser, FiSettings, FiLogOut } from "react-icons/fi"
+import logoTexto from "../assets/logoTextoVerde.png"
 
 function Navbar() {
   const [mostrarMenu, setMostrarMenu] = useState(false)
+  const navigate = useNavigate()
+
+  const usuario = JSON.parse(localStorage.getItem("usuario"))
+
+  const cerrarSesion = () => {
+    localStorage.removeItem("usuario")
+    navigate("/login")
+  }
 
   return (
     <div className="w-full">
       {/* BARRA SUPERIOR */}
       <div className="bg-green-700 py-4 px-6 flex justify-between items-center">
         <div className="flex items-center gap-2">
-          {/* Logo con enlace al inicio */}
           <Link to="/">
-            <img src={logoTexto} alt="Logo Farmacias Comunales" className="h-12" />
+            <img src={logoTexto} alt="Logo Farmacias Comunales" className="h-12 cursor-pointer" />
           </Link>
           <button
             onClick={() => setMostrarMenu(!mostrarMenu)}
@@ -29,10 +36,19 @@ function Navbar() {
             className="w-full px-4 py-2 rounded-full focus:outline-none"
           />
         </div>
-        <div className="flex gap-4 text-white text-xl">
-          <Link to="/login">
-            <FiUser />
-          </Link>
+        <div className="flex gap-4 text-white text-xl items-center">
+          {usuario ? (
+            <>
+              <span className="text-sm mr-2">{usuario.nombre}</span>
+              <button onClick={cerrarSesion} title="Cerrar sesión">
+                <FiLogOut />
+              </button>
+            </>
+          ) : (
+            <Link to="/login">
+              <FiUser />
+            </Link>
+          )}
           <Link to="/configuraciones">
             <FiSettings />
           </Link>
@@ -52,7 +68,9 @@ function Navbar() {
             <h3 className="font-bold mb-2">Gestión</h3>
             <Link to="/productos" className="block hover:underline">Productos</Link>
             <Link to="/usuarios" className="block hover:underline">Usuarios</Link>
-            <Link to="/crearusuario" className="block hover:underline">Crear Usuario</Link>
+            {usuario?.rol === "admin" && (
+              <Link to="/crear-usuario" className="block hover:underline">Crear Usuario</Link>
+            )}
             <Link to="/beneficiarios" className="block hover:underline">Beneficiarios</Link>
             <Link to="/solicitudes" className="block hover:underline">Solicitudes</Link>
             <Link to="/ventas" className="block hover:underline">Ventas</Link>
