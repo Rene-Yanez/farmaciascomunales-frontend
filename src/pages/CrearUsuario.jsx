@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { apiFetch } from '../service/api'
+import { apiFetch } from '../services/api'
 
 function CrearUsuario() {
   const [nombre, setNombre] = useState('')
