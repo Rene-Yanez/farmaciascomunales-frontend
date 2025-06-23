@@ -7,7 +7,7 @@ function Usuarios() {
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    apiFetch('usuarios', '/usuarios') // Asegúrate que este endpoint sea correcto
+    apiFetch('usuarios', '/usuarios') // o el endpoint real que tengas
       .then(data => {
         setUsuarios(data)
         setLoading(false)
@@ -18,24 +18,21 @@ function Usuarios() {
       })
   }, [])
 
-  if (loading) return <p className="p-4 text-gray-600">Cargando usuarios...</p>
-  if (error) return <p className="p-4 text-red-500">Error: {error}</p>
+  if (loading) return <p>Cargando usuarios...</p>
+  if (error) return <p>Error: {error}</p>
 
   return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold mb-6">Usuarios</h1>
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+    <div className="p-4">
+      <h1 className="text-2xl font-bold mb-4">Usuarios</h1>
+      <ul className="space-y-2">
         {usuarios.map(usuario => (
-          <div
-            key={usuario.id}
-            className="border border-gray-300 rounded-lg p-4 shadow hover:shadow-md transition"
-          >
-            <p><span className="font-semibold"> Nombre:</span> {usuario.nombre}</p>
-            <p><span className="font-semibold"> Correo:</span> {usuario.correo}</p>
-            <p><span className="font-semibold"> Rol:</span> {usuario.rol}</p>
-          </div>
+          <li key={usuario.id} className="border p-2 rounded shadow">
+            <p><strong>Nombre:</strong> {usuario.nombre}</p>
+            <p><strong>Correo:</strong> {usuario.correo}</p>
+            <p><strong>Rol:</strong> {usuario.rol}</p>
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   )
 }
