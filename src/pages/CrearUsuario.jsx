@@ -25,7 +25,7 @@ function CrearUsuario() {
     // Simulamos guardar usuario
     const nuevoUsuario = { nombre, correo, rol }
     setUsuariosSimulados([...usuariosSimulados, nuevoUsuario])
-    setMensaje("Usuario "${nombre}" creado exitosamente con rol "${rol}"")
+    setMensaje(Usuario "${nombre}" creado exitosamente con rol "${rol}")
 
     // Limpiar
     setNombre("")
