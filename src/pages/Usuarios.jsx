@@ -3,21 +3,14 @@ import { useEffect, useState } from 'react'
 function Usuarios() {
   const [busqueda, setBusqueda] = useState('')
   const [usuarios, setUsuarios] = useState([])
-  const [error, setError] = useState(false)
 
   useEffect(() => {
     fetch('https://microservicio-usuarios-vk3w.onrender.com/usuarios')
-      .then((res) => {
-        if (!res.ok) throw new Error('No se pudieron cargar los usuarios')
-        return res.json()
-      })
-      .then((data) => {
-        setUsuarios(data)
-        setError(false)
-      })
+      .then((res) => res.json())
+      .then((data) => setUsuarios(data))
       .catch((err) => {
-        console.error(err.message)
-        setError(true)
+        console.error('Error al obtener usuarios:', err)
+        setUsuarios([]) // en caso de error, dejar la lista vacía
       })
   }, [])
 
@@ -41,8 +34,8 @@ function Usuarios() {
         </div>
 
         <div className="overflow-x-auto rounded-lg shadow-md bg-white p-4">
-          {error ? (
-            <p className="text-center text-red-600 font-semibold">No se pudieron cargar los usuarios 😕</p>
+          {usuarios.length === 0 ? (
+            <p className="text-center text-red-600 font-semibold">No se encontraron usuarios 😕</p>
           ) : (
             <table className="min-w-full text-sm text-left">
               <thead className="bg-green-100 text-green-800 font-semibold">
