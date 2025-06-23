@@ -1,20 +1,29 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 function Usuarios() {
   const [busqueda, setBusqueda] = useState('')
+  const [usuarios, setUsuarios] = useState([])
 
-  const usuarios = [
-    { id: 1, nombre: 'Florencio Cabeza de Balde', correo: 'florencio@comunal.cl', rol: 'Administrador' },
-    { id: 2, nombre: 'Maritza Sin WiFi', correo: 'maritza@comunal.cl', rol: 'Funcionario' },
-    { id: 3, nombre: 'Kevin El Imprimidor', correo: 'kevin@comunal.cl', rol: 'Funcionario' },
-    { id: 4, nombre: 'Doña Rosa del WhatsApp', correo: 'rosita@comunal.cl', rol: 'Vecina' },
-    { id: 5, nombre: 'Don Hugo el Mateo', correo: 'hugo@comunal.cl', rol: 'Director' }
-  ]
+  const apiUrl = import.meta.env.VITE_API_USUARIOS
+
+  useEffect(() => {
+    fetch(`${apiUrl}/api/usuarios`)
+      .then(res => res.json())
+      .then(data => setUsuarios(data))
+      .catch(err => {
+        console.error('Error al cargar usuarios:', err)
+        setUsuarios([]) // o puedes mostrar un mensaje de error
+      })
+  }, [])
+
+  // Puedes filtrar usuarios según la búsqueda
+  const usuariosFiltrados = usuarios.filter(u =>
+    u.nombre.toLowerCase().includes(busqueda.toLowerCase())
+  )
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-green-50 to-white px-4 py-10">
       <div className="max-w-5xl mx-auto text-green-900">
-
         <h1 className="text-3xl font-bold mb-6 text-center">Gestión de Usuarios</h1>
 
         <div className="mb-6 flex justify-center">
@@ -39,7 +48,7 @@ function Usuarios() {
               </tr>
             </thead>
             <tbody>
-              {usuarios.map((u) => (
+              {usuariosFiltrados.map((u) => (
                 <tr key={u.id} className="border-b hover:bg-green-50">
                   <td className="px-6 py-3">{u.id}</td>
                   <td className="px-6 py-3">{u.nombre}</td>
