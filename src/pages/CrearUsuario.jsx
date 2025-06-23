@@ -13,19 +13,19 @@ function CrearUsuario() {
     e.preventDefault()
 
     if (!nombre || !correo || !contrasena || !confirmar) {
-      setMensaje("❌ Todos los campos son obligatorios")
+      setMensaje(" Todos los campos son obligatorios")
       return
     }
 
     if (contrasena !== confirmar) {
-      setMensaje("❌ Las contraseñas no coinciden")
+      setMensaje(" Las contraseñas no coinciden")
       return
     }
 
     // Simulamos guardar usuario
     const nuevoUsuario = { nombre, correo, rol }
     setUsuariosSimulados([...usuariosSimulados, nuevoUsuario])
-    setMensaje(✅ Usuario "${nombre}" creado exitosamente con rol "${rol}")
+    setMensaje("Usuario "${nombre}" creado exitosamente con rol "${rol}"")
 
     // Limpiar
     setNombre("")
