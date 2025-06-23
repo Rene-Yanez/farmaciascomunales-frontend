@@ -2,9 +2,9 @@
   "name": "farmacias-comunales-tailwind-v3",
   "version": "0.0.0",
   "scripts": {
-  "dev": "node_modules/.bin/vite",
-  "build": "node_modules/.bin/vite build",
-  "preview": "node_modules/.bin/vite preview"
+  "dev": "vite",
+  "build": "node --no-warnings ./node_modules/vite/bin/vite.js build",
+  "preview": "node --no-warnings ./node_modules/vite/bin/vite.js preview"
   },
   "dependencies": {
     "chart.js": "^4.5.0",
