@@ -71,7 +71,7 @@ function Navbar() {
             {usuario?.rol === "admin" && (
               <Link to="/crear-usuario" className="block hover:underline">Crear Usuario</Link>
             )}
-            <Link to="/beneficiarios" className="block hover:underline">Beneficiarios</Link>
+            
             <Link to="/solicitudes" className="block hover:underline">Solicitudes</Link>
             <Link to="/ventas" className="block hover:underline">Ventas</Link>
             <Link to="/compras" className="block hover:underline">Compras</Link>
@@ -89,6 +89,7 @@ function Navbar() {
 
           <div>
             <h3 className="font-bold mb-2">Informes</h3>
+            <Link to="/beneficiarios" className="block hover:underline">Beneficiarios</Link>
             <Link to="/informes" className="block hover:underline">Visualizar</Link>
             <Link to="/consultaprecio" className="block hover:underline">Consulta Precio</Link>
             <Link to="/historialpacientes" className="block hover:underline">Historial Pacientes</Link>

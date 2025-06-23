@@ -1,37 +1,81 @@
+import { useState } from 'react'
+
 function Login() {
+  const [correo, setCorreo] = useState('')
+  const [contrasena, setContrasena] = useState('')
+  const [error, setError] = useState('')
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    // Validación básica
+    if (!correo || !contrasena) {
+      setError('Todos los campos son obligatorios.')
+      return
+    }
+
+    // Puedes conectar al microservicio aquí:
+    try {
+      const response = await fetch(import.meta.env.VITE_API_USUARIOS + '/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ correo, contrasena }),
+      })
+
+      if (!response.ok) {
+        const text = await response.text()
+        throw new Error(text)
+      }
+
+      const data = await response.json()
+      console.log('Login exitoso:', data)
+
+      // Guarda token o sesión aquí si es necesario
+      // localStorage.setItem('token', data.token)
+
+      setError('')
+      // Redirigir al dashboard u otra vista
+    } catch (err) {
+      setError(err.message || 'Error al iniciar sesión.')
+    }
+  }
+
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-b from-green-100 to-white px-4 py-12">
-      {/* Contenedor del formulario */}
-      <div className="bg-white rounded-xl shadow-lg p-8 w-full max-w-md border border-green-200">
-        <h1 className="text-2xl font-bold text-green-800 mb-6 text-center">Iniciar sesión</h1>
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <form onSubmit={handleSubmit} className="bg-white p-8 rounded shadow-md w-full max-w-md">
+        <h2 className="text-2xl font-bold mb-6 text-center">Iniciar Sesión</h2>
 
-        <form className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-green-700 mb-1">Correo electrónico</label>
-            <input
-              type="email"
-              placeholder="correo@comunal.cl"
-              className="w-full px-4 py-2 border border-green-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
-            />
-          </div>
+        {error && <p className="mb-4 text-red-600 text-sm">{error}</p>}
 
-          <div>
-            <label className="block text-sm font-medium text-green-700 mb-1">Contraseña</label>
-            <input
-              type="password"
-              placeholder="********"
-              className="w-full px-4 py-2 border border-green-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
-            />
-          </div>
+        <div className="mb-4">
+          <label className="block mb-1 text-sm font-medium">Correo</label>
+          <input
+            type="email"
+            className="w-full px-3 py-2 border rounded focus:outline-none focus:ring"
+            value={correo}
+            onChange={(e) => setCorreo(e.target.value)}
+            required
+          />
+        </div>
 
-          <button
-            type="submit"
-            className="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg font-semibold transition"
-          >
-            Ingresar
-          </button>
-        </form>
-      </div>
+        <div className="mb-6">
+          <label className="block mb-1 text-sm font-medium">Contraseña</label>
+          <input
+            type="password"
+            className="w-full px-3 py-2 border rounded focus:outline-none focus:ring"
+            value={contrasena}
+            onChange={(e) => setContrasena(e.target.value)}
+            required
+          />
+        </div>
+
+        <button
+          type="submit"
+          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition-colors"
+        >
+          Iniciar Sesión
+        </button>
+      </form>
     </div>
   )
 }
