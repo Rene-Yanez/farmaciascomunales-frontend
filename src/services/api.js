@@ -19,7 +19,7 @@ export async function apiFetch(servicio, endpoint, options = {}) {
     throw new Error(Servicio desconocido: ${servicio})
   }
 
-  const url = `${baseUrl}${endpoint.startsWith('/') ? endpoint : /${endpoint}}`
+  const url = `${baseUrl}${endpoint.startsWith('/') ? endpoint : `/${endpoint}}`
   const token = localStorage.getItem('token')
 
   const headers = {
