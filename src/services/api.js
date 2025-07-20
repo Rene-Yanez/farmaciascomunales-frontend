@@ -20,7 +20,7 @@ export async function apiFetch(servicio, endpoint, options = {}) {
   }
 }
 
-  const url = `${baseUrl}${endpoint.startsWith('/') ? endpoint : /${endpoint}}`
+  const url = `${baseUrl}${endpoint.startsWith('/') ? endpoint : `/${endpoint}`}`
   const token = localStorage.getItem('token')
 
 
