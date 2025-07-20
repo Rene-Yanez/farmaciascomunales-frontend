@@ -16,15 +16,15 @@ const baseUrls = {
 export async function apiFetch(servicio, endpoint, options = {}) {
   const baseUrl = baseUrls[servicio]
   if (!baseUrl) {
-    throw new Error(Servicio desconocido: ${servicio})
+    throw new Error(`Servicio desconocido: ${servicio}`)
   }
 
-  const url = `${baseUrl}${endpoint.startsWith('/') ? endpoint : /${endpoint}}`
+  const url = `${baseUrl}${endpoint.startsWith('/') ? endpoint : `/${endpoint}`}`
   const token = localStorage.getItem('token')
 
   const headers = {
     'Content-Type': 'application/json',
-    ...(token && { Authorization: Bearer ${token} }),
+    ...(token && { `Authorization: Bearer ${token}` }),
     ...(options.headers || {})
   }
 
@@ -36,12 +36,12 @@ export async function apiFetch(servicio, endpoint, options = {}) {
 
     if (!response.ok) {
       const errorText = await response.text()
-      throw new Error(Error ${response.status}: ${errorText})
+      throw new Error(`Error ${response.status}: ${errorText}`)
     }
 
     return await response.json()
   } catch (error) {
-    console.error([apiFetch] Error al conectar con ${url}:, error.message)
+    console.error(`[apiFetch] Error al conectar con ${url}:`, error.message)
     throw error
   }
 }
