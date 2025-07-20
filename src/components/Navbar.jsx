@@ -9,8 +9,9 @@ function Navbar() {
 
   const usuario = JSON.parse(localStorage.getItem("usuario"))
 
-  const cerrarSesion = () => {
-    localStorage.removeItem("usuario")
+  const handleLogout = () => {
+    localStorage.removeItem("token")
+    localStorage.removeItem("usuario") // si estás guardando info adicional del usuario
     navigate("/login")
   }
 
@@ -40,7 +41,7 @@ function Navbar() {
           {usuario ? (
             <>
               <span className="text-sm mr-2">{usuario.nombre}</span>
-              <button onClick={cerrarSesion} title="Cerrar sesión">
+              <button onClick={handleLogout} title="Cerrar sesión">
                 <FiLogOut />
               </button>
             </>

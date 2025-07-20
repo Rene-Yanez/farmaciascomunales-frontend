@@ -1,9 +1,11 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 function Login() {
   const [correo, setCorreo] = useState('')
   const [contrasena, setContrasena] = useState('')
   const [error, setError] = useState('')
+  const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -26,13 +28,11 @@ function Login() {
       }
 
       const data = await response.json()
-      console.log('Login exitoso:', data)
-
-      // Aquí puedes guardar datos de sesión si quieres
-      // localStorage.setItem('usuario', JSON.stringify(data))
+      localStorage.setItem('token', data.token) //  Guarda el token JWT
 
       setError('')
-      // Redireccionar si es necesario
+      navigate('/dashboard') //  Redirige al dashboard (ajusta la ruta según tu app)
+
     } catch (err) {
       setError(err.message || 'Error al iniciar sesión.')
     }
